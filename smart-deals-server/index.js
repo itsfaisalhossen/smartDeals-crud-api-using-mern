@@ -35,9 +35,30 @@ async function run() {
     // DB Collection
     const db = client.db("smart_db");
     const productsCollection = db.collection("products");
+    const bidsCollection = db.collection("bids");
 
+    // Products related apis
     app.get("/products", async (req, res) => {
-      const cursor = productsCollection.find();
+      // const projectFileds = {
+      //   title: 1,
+      //   price_min: 1,
+      //   price_max: 1,
+      //   image: 1,
+      // };
+      // const cursor = productsCollection
+      //   .find()
+      //   .sort({ price_min: -1 })
+      //   .skip(2)
+      //   .limit(2)
+      //   .project(projectFileds);
+      console.log(req.query);
+      const email = req.query.email;
+      const query = {};
+      if (email) {
+        query.email = email;
+      }
+
+      const cursor = productsCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -71,6 +92,26 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await productsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // Bids realted apis
+    app.get("/bids", async (req, res) => {
+      console.log(req.query);
+      const email = req.query.email;
+      console.log(email);
+      const query = {};
+      if (email) {
+        query.buyer_email = email;
+      }
+      const cursor = bidsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.post("/bids", async (req, res) => {
+      const newBid = req.body;
+      const result = await bidsCollection.insertOne(newBid);
       res.send(result);
     });
   } finally {
