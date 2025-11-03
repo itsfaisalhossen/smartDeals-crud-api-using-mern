@@ -13,6 +13,7 @@ import MyBids from "./components/MyBids/MyBids.jsx";
 import Login from "./components/Login/Login.jsx";
 import Register from "./components/Register/Register.jsx";
 import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
+import AuthProvider from "../providers/AuthProvider/AuthProvider.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>
 );

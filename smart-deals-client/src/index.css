@@ -7,3 +7,8 @@ body {
   font-family: "Inter", sans-serif;
   background-color: rgba(251, 242, 229, 0.122);
 }
+
+li,
+.active {
+  @apply text-blue-700  bg-black/5 duration-400 py-1 px-3.5 rounded-lg;
+}
