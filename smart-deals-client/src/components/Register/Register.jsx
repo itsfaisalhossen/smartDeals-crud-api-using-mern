@@ -20,6 +20,24 @@ const Register = () => {
       .then((result) => {
         setLoading(false);
         console.log(result.user);
+
+        const newUser = {
+          name: result.user.displayName,
+          email: result.user.email,
+          image: result.user.photoURL,
+        };
+        // fetch usert he database
+        fetch(`http://localhost:5000/users`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("data after use save", data);
+          });
         alert("Login Successfull");
       })
       .catch((error) => {
