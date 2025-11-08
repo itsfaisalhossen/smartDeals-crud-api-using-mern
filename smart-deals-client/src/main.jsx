@@ -14,6 +14,7 @@ import Login from "./components/Login/Login.jsx";
 import Register from "./components/Register/Register.jsx";
 import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 import AuthProvider from "../providers/AuthProvider/AuthProvider.jsx";
+import PrivetRoute from "./privetRoute/PrivetRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,13 +24,31 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "all-products", element: <AllProducts /> },
-      { path: "my-products", element: <MyProducts /> },
-      { path: "my-bids", element: <MyBids /> },
+      {
+        path: "my-products",
+        element: (
+          <PrivetRoute>
+            <MyProducts />
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: "my-bids",
+        element: (
+          <PrivetRoute>
+            <MyBids />
+          </PrivetRoute>
+        ),
+      },
       {
         path: "product-details/:id",
         loader: ({ params }) =>
           fetch(`http://localhost:5000/products/${params.id}`),
-        element: <ProductDetails />,
+        element: (
+          <PrivetRoute>
+            <ProductDetails />
+          </PrivetRoute>
+        ),
       },
       { path: "create-product", element: <CreateAproduct /> },
       { path: "login", element: <Login /> },

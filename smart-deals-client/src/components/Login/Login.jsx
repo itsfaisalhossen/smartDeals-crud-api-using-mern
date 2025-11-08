@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../../providers/AuthProvider/AuthContext";
 import { useContext } from "react";
@@ -6,7 +6,9 @@ import { useContext } from "react";
 const Login = () => {
   const { signInUserFunc, setLoading, signInWithGoogleFunc } =
     useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
+  const from = location.state || "/";
 
   const handleGoogleLogin = () => {
     signInWithGoogleFunc()
@@ -14,6 +16,7 @@ const Login = () => {
         console.log(result.user);
         setLoading(false);
         alert("Login Successfull");
+        navigate(location.state ? location.state : "/");
       })
       .catch((error) => {
         console.log(error);
@@ -31,6 +34,7 @@ const Login = () => {
         navigate("/");
         setLoading(false);
         alert("Login Successfully");
+        navigate(from);
         e.target.reset();
       })
       .catch((err) => {
